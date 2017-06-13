@@ -1,17 +1,12 @@
 import { h, render } from 'preact'
-import { Xorshift } from 'randoom'
+import { Provider } from 'preact-redux'
 
-const rng = new Xorshift(1337)
-const Randoom = ({ rng }) => (
-    <div>
-        <p>{rng.generate()}</p>
-        <p>{rng.generate()}</p>
-        <p>{rng.generate()}</p>
-        <p>{rng.generate()}</p>
-    </div>
-)
+import store from './store/store.js'
+import Randoom from './containers/randoom.js'
 
 render(
-    <Randoom rng={rng} />,
+    <Provider store={store}>
+        <Randoom />
+    </Provider>,
     document.body
 )

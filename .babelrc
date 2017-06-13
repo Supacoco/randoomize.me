@@ -8,6 +8,7 @@
             {
                 "pragma": "h"
             }
-        ]
+        ],
+        "transform-object-rest-spread"
     ]
 }
