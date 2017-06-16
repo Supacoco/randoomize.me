@@ -1,13 +1,17 @@
 import {
     GENERATE_NUMBER,
-    GENERATE_NUMBER_WITH_NEW_SEED
+    GENERATE_SEQUENCE,
+    GENERATOR_UPDATE_ITERATIONS
 } from '../actions/generator.js'
+
+import { Sequence } from '../helpers/sequence.js'
 
 import { Hoole } from 'randoom'
 
 const initialState = {
     initialSeed: Date.now(),
     currentSeed: Date.now(),
+    numberOfIteration: 10,
     numbers: []
 }
 
@@ -25,13 +29,23 @@ const generator = (state = initialState, action) => {
 
             return { ...state, ...stateUpdate }
         }
-        case GENERATE_NUMBER_WITH_NEW_SEED: {
-            const rng = new Hoole(action.seed);
-            const sequence = [rng.generate()]
-            const stateUpdate = { initialSeed: action.seed, currentSeed: rng.seed, numbers: sequence }
+        case GENERATE_SEQUENCE: {
+            const rng = new Hoole(action.seed)
+            const sequence = Sequence.generateSequence(
+                state.numberOfIteration,
+                rng
+            )
+
+            const stateUpdate = {
+                initialSeed: action.seed,
+                currentSeed: rng.seed,
+                numbers: sequence
+            }
 
             return { ...state, ...stateUpdate }
         }
+        case GENERATOR_UPDATE_ITERATIONS:
+            return { ...state, numberOfIteration: action.iterations }
         default:
             return state
     }
