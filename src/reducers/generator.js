@@ -11,7 +11,8 @@ import { Hoole } from 'randoom'
 const initialState = {
     initialSeed: Date.now(),
     currentSeed: Date.now(),
-    numberOfIteration: 10,
+    numberOfIteration: 1000,
+    elapsedTime: undefined,
     numbers: []
 }
 
@@ -30,8 +31,9 @@ const generator = (state = initialState, action) => {
             return { ...state, ...stateUpdate }
         }
         case GENERATE_SEQUENCE: {
+            const t0 = performance.now();
             const rng = new Hoole(action.seed)
-            const sequence = Sequence.generateSequence(
+            const sequence = Sequence.generateDotSequence(
                 state.numberOfIteration,
                 rng
             )
@@ -42,7 +44,9 @@ const generator = (state = initialState, action) => {
                 numbers: sequence
             }
 
-            return { ...state, ...stateUpdate }
+            const t1 = performance.now();
+
+            return { ...state, ...stateUpdate, elapsedTime: t1 - t0 }
         }
         case GENERATOR_UPDATE_ITERATIONS:
             return { ...state, numberOfIteration: action.iterations }

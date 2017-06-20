@@ -1,13 +1,14 @@
 const { resolve } = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { 
+const {
     LoaderOptionsPlugin,
-    NoEmitOnErrorsPlugin 
+    NoEmitOnErrorsPlugin,
+    DefinePlugin
 } = require('webpack');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.jsx',
     output: {
         filename: 'bundle.js',
         path: resolve(__dirname, 'dist')
@@ -71,6 +72,12 @@ module.exports = {
                         ],
                     }),
                 ]
+            }
+        }),
+
+        new DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
             }
         })
     ]

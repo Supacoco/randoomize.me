@@ -1,5 +1,18 @@
 class Sequence {
     
+    static generateDotSequence (length, rng) {
+        const dots = []
+
+        for (let counter = length; counter > 0; counter--) {
+            dots.push({
+                x: rng.generate(),
+                y: rng.generate()
+            })
+        }
+
+        return dots
+    }
+
     static generateSequence(length, rng) {
         const numbers = [];
 
