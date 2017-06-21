@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
     LoaderOptionsPlugin,
     NoEmitOnErrorsPlugin,
@@ -35,25 +36,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                // Inline base64 URLs for <=8k images, direct URLs for the rest
-                test: /\.(png|jpg|jpeg|gif|svg)$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 8192,
-                    name: 'assets/img/[name].[ext]?[hash]'
-                }
-            },
-            {
-                // Inline base64 URLs for <=8k fonts, direct URLs for the rest
-                test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 8192,
-                    name: 'assets/fonts/[name].[ext]'
-                }
-            },
+            }
         ]
     },
 
@@ -79,6 +62,13 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             }
-        })
+        }),
+
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false,
+            reportFilename: '../bundleAnalyzer/report.html'
+        }),
+
     ]
 };

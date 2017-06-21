@@ -1,9 +1,9 @@
 const initialState = {
     viewBox: '0 0 1 1',
     dotSize: 0.001,
-    dotColor: '#900C3F',
-    width: 500,
-    height: 500,
+    dotColor: 'chartreuse',
+    width: 900,
+    height: 900,
     backgroundColor: '#1e1e1e'
 }
 
