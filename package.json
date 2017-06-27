@@ -7,7 +7,7 @@
     "tdd": "jest --watch --colors",
     "test": "jest --colors",
     "build": "webpack --colors -p",
-    "start": "webpack-dev-server --open --colors"
+    "start": "webpack-dev-server --open --colors --https"
   },
   "jest": {
     "transform": {
