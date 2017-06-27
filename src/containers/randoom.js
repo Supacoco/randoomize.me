@@ -4,19 +4,22 @@ import { connect } from 'preact-redux'
 
 import {
     generateSequence,
-    generatorUpdateIterations,
-    generatorChange
+    generatorUpdateConfig
 } from '../actions/generator.js'
 
 import Context from '../components/context.jsx'
 import Generators from '../components/generators.jsx'
+import GeneratorModifier from '../components/generatorModifier.jsx'
 
-const RandoomComponent = ({ initialSeed, numberOfIteration, numbers, elapsedTime, contextConfig, availableGenerators, selectedGenerator, onGenerateSequence, onIterationsChange, onChangeGenerator }) => (
+const RandoomComponent = ({ initialSeed, iterations, numbers, elapsedTime, contextConfig, availableGenerators, selectedGenerator, handleInputChange, generateSequence }) => (
     <div>
-        <input id="seed" type="number" placeholder="seed" value={initialSeed} />
-        <input id="iterations" onChange={() => onIterationsChange(document.getElementById('iterations').value)} type="number" placeholder="#" value={numberOfIteration} />
-        <Generators names={availableGenerators} selected={selectedGenerator} onChange={onChangeGenerator} />
-        <button onClick={() => onGenerateSequence(document.getElementById('seed').value)}>generate sequence</button>
+        <form onSubmit={e => { e.preventDefault(); generateSequence() }}>
+            <input id="initialSeed" name="initialSeed" type="number" placeholder="seed" onChange={e => handleInputChange(e)} value={initialSeed} />
+            <input id="iterations" name="iterations" placeholder="#" onChange={e => handleInputChange(e)} type="number" value={iterations} />
+            <Generators names={availableGenerators} selected={selectedGenerator} onChange={handleInputChange} />
+            <GeneratorModifier onChange={handleInputChange}/>
+            <input type="submit" value="Generate Sequence" />
+        </form>
         <Context
             sequence={numbers}
             viewBox={contextConfig.viewBox}
@@ -33,7 +36,7 @@ const RandoomComponent = ({ initialSeed, numberOfIteration, numbers, elapsedTime
 const mapStateToProps = (state) => (
     {
         initialSeed: state.generator.initialSeed,
-        numberOfIteration: state.generator.numberOfIteration,
+        iterations: state.generator.iterations,
         numbers: state.generator.numbers,
         availableGenerators: state.generator.availableGenerators,
         selectedGenerator: state.generator.selectedGenerator,
@@ -44,9 +47,8 @@ const mapStateToProps = (state) => (
 
 const mapDispatchToProps = (dispatch) => (
     {
-        onGenerateSequence: (seed, iterations) => { dispatch(generateSequence(seed, iterations)) },
-        onIterationsChange: (iterations) => { dispatch(generatorUpdateIterations(iterations)) },
-        onChangeGenerator: (generator) => { dispatch(generatorChange(generator)) }
+        generateSequence: () => { dispatch(generateSequence()) },
+        handleInputChange: event => { dispatch(generatorUpdateConfig(event)) }
     }
 )
 

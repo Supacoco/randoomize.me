@@ -1,7 +1,7 @@
 import { h } from 'preact'
 
 const Generators = ({ names, selected, onChange }) => (
-    <select onChange={e => onChange(e.target.value)}>
+    <select name="selectedGenerator" onChange={e => onChange(e)}>
         {
             names.map(name =>
                 <option selected={name === selected} value={name}>{name}</option>

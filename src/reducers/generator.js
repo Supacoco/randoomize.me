@@ -1,46 +1,39 @@
 import {
     GENERATOR_GENERATE_SEQUENCE,
-    GENERATOR_UPDATE_ITERATIONS,
-    GENERATOR_CHANGE
+    GENERATOR_UPDATE_CONFIG,
 } from '../actions/generator.js'
 
-import { generateDotSequence } from '../helpers/sequence.js'
+import { generateDotSequence, generateNormalDotSequence } from '../helpers/sequence.js'
 import { generatorNames, generatorFactory } from '../helpers/generators.js'
 
 const initialState = {
     initialSeed: Date.now(),
-    currentSeed: Date.now(),
-    numberOfIteration: 1000,
+    distribution: "uniform",
+    iterations: 1000,
     elapsedTime: undefined,
     availableGenerators: generatorNames,
-    selectedGenerator: 'Xorshift',
+    selectedGenerator: 'Hoole',
     numbers: []
 }
 
 const generator = (state = initialState, action) => {
     switch (action.type) {
-        case GENERATOR_GENERATE_SEQUENCE: {
+        case GENERATOR_GENERATE_SEQUENCE:
+            const rng = generatorFactory(state.selectedGenerator, state.initialSeed)
             const t0 = performance.now();
-            const rng = generatorFactory(state.selectedGenerator, action.seed)
             const sequence = generateDotSequence(
-                state.numberOfIteration,
+                state.iterations,
                 rng
             )
-
-            const stateUpdate = {
-                initialSeed: action.seed,
-                currentSeed: rng.seed,
-                numbers: sequence
-            }
-
             const t1 = performance.now();
 
-            return { ...state, ...stateUpdate, elapsedTime: t1 - t0 }
-        }
-        case GENERATOR_UPDATE_ITERATIONS:
-            return { ...state, numberOfIteration: action.iterations }
-        case GENERATOR_CHANGE:
-            return { ...state, selectedGenerator: action.generator }
+            return { ...state, numbers: sequence, elapsedTime: t1 - t0 }
+        case GENERATOR_UPDATE_CONFIG:
+            const target = event.target
+            const value = target.value
+            const name = target.name
+
+            return { ...state, [name]: value }
         default:
             return state
     }
