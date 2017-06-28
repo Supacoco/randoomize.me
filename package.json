@@ -1,6 +1,6 @@
 {
   "name": "randoomize.me",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Graphical representation of RNGs",
   "main": "src/index.js",
   "scripts": {
