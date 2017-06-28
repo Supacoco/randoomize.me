@@ -8,11 +8,11 @@ import { generatorNames, generatorFactory } from '../helpers/generators.js'
 
 const initialState = {
     initialSeed: Date.now(),
-    distribution: "uniform",
-    iterations: 1000,
+    distribution: 'uniform',
+    iterations: 10000,
     elapsedTime: undefined,
     availableGenerators: generatorNames,
-    selectedGenerator: 'Hoole',
+    selectedGenerator: 'Xorshift',
     numbers: []
 }
 
@@ -21,10 +21,16 @@ const generator = (state = initialState, action) => {
         case GENERATOR_GENERATE_SEQUENCE:
             const rng = generatorFactory(state.selectedGenerator, state.initialSeed)
             const t0 = performance.now();
-            const sequence = generateDotSequence(
-                state.iterations,
-                rng
-            )
+            const sequence = state.distribution === 'uniform' ?
+                generateDotSequence(state.iterations, rng) :
+                generateNormalDotSequence(state.iterations, rng)
+                    .reduce((result, value, index) => {
+                        result.push({
+                            x: value.x + 3,
+                            y: value.y + 3
+                        })
+                        return result
+                    }, [])
             const t1 = performance.now();
 
             return { ...state, numbers: sequence, elapsedTime: t1 - t0 }

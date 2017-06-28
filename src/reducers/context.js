@@ -1,6 +1,9 @@
+import { CONTEXT_CONFIG } from '../config/context.js'
+import { UPDATE_SVG_CONFIG } from '../actions/context.js'
+
 const initialState = {
-    viewBox: '0 0 1 1',
-    dotSize: 0.001,
+    viewBox: CONTEXT_CONFIG.uniform.viewBox,
+    dotSize: CONTEXT_CONFIG.uniform.dotSize,
     dotColor: 'chartreuse',
     width: 900,
     height: 900,
@@ -9,6 +12,8 @@ const initialState = {
 
 const context = (state = initialState, action) => {
     switch (action.type) {
+        case UPDATE_SVG_CONFIG:
+            return { ...state, ...CONTEXT_CONFIG[action.distribution] }
         default:
             return state
     }
