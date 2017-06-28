@@ -1,8 +1,8 @@
 import { h } from 'preact'
 
-const Context = ({ sequence, viewBox, dotSize, dotColor, bgColor, width, height }) => (
-    <div style={`background-color: ${bgColor}; width: ${width}px; height: ${height}px;`}>
-        <svg viewBox={viewBox} width={width} height={height} fill={bgColor}>
+const Context = ({ sequence, viewBox, dotSize, dotColor, backgroundColor, width }) => (
+    <div style={`background-color: ${backgroundColor}; max-width: ${width}px;`}>
+        <svg viewBox={viewBox}>
             {
                 sequence.map(dot => (
                     <ellipse

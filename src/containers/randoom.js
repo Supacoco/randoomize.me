@@ -13,19 +13,14 @@ const RandoomComponent = ({ initialSeed, iterations, numbers, distribution, elap
     <div>
         <form onSubmit={e => { e.preventDefault(); generateRandoomness() }}>
             <input id="initialSeed" name="initialSeed" type="number" placeholder="seed" onChange={e => handleInputChange(e)} value={initialSeed} />
-            <input id="iterations" name="iterations" placeholder="#" onChange={e => handleInputChange(e)} type="number" value={iterations} />
+            <input id="iterations" name="iterations" type="number" placeholder="#" onChange={e => handleInputChange(e)} value={iterations} />
             <Generators names={availableGenerators} selected={selectedGenerator} onChange={handleInputChange} />
-            <GeneratorModifier onChange={handleInputChange} selectedDistribution={distribution}/>
+            <GeneratorModifier selectedDistribution={distribution} onChange={handleInputChange} />
             <input type="submit" value="Generate Sequence" />
         </form>
         <Context
             sequence={numbers}
-            viewBox={contextConfig.viewBox}
-            dotSize={contextConfig.dotSize}
-            dotColor={contextConfig.dotColor}
-            bgColor={contextConfig.backgroundColor}
-            width={contextConfig.width}
-            height={contextConfig.height}
+            {...contextConfig}
         />
         <p style={`display: ${elapsedTime ? '' : 'none'}; color: dimgrey;`}>Generated in: {elapsedTime} ms</p>
     </div>
