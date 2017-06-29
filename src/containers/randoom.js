@@ -9,33 +9,27 @@ import Context from '../components/context.jsx'
 import Generators from '../components/generators.jsx'
 import GeneratorModifier from '../components/generatorModifier.jsx'
 
-const RandoomComponent = ({ initialSeed, iterations, numbers, distribution, elapsedTime, contextConfig, availableGenerators, selectedGenerator, handleInputChange, generateRandoomness }) => (
+const RandoomComponent = ({ generatorConfig, contextConfig, handleInputChange, generateRandoomness }) => (
     <div>
         <form onSubmit={e => { e.preventDefault(); generateRandoomness() }}>
-            <input id="initialSeed" name="initialSeed" type="number" placeholder="seed" onChange={e => handleInputChange(e)} value={initialSeed} />
-            <input id="iterations" name="iterations" type="number" placeholder="#" onChange={e => handleInputChange(e)} value={iterations} />
-            <Generators names={availableGenerators} selected={selectedGenerator} onChange={handleInputChange} />
-            <GeneratorModifier selectedDistribution={distribution} onChange={handleInputChange} />
+            <input id="initialSeed" name="initialSeed" type="number" placeholder="seed" onChange={e => handleInputChange(e)} value={generatorConfig.initialSeed} />
+            <input id="iterations" name="iterations" type="number" placeholder="#" onChange={e => handleInputChange(e)} value={generatorConfig.iterations} />
+            <Generators names={generatorConfig.availableGenerators} selected={generatorConfig.selectedGenerator} onChange={handleInputChange} />
+            <GeneratorModifier selectedDistribution={generatorConfig.distribution} onChange={handleInputChange} />
             <input type="submit" value="Generate Sequence" />
         </form>
         <Context
-            sequence={numbers}
+            sequence={generatorConfig.numbers}
             {...contextConfig}
         />
-        <p style={`display: ${elapsedTime ? '' : 'none'}; color: dimgrey;`}>Generated in: {elapsedTime} ms</p>
+        <p style={`display: ${generatorConfig.elapsedTime ? '' : 'none'}; color: dimgrey;`}>Generated in: {generatorConfig.elapsedTime} ms</p>
     </div>
 )
 
 const mapStateToProps = (state) => (
     {
-        initialSeed: state.generator.initialSeed,
-        iterations: state.generator.iterations,
-        distribution: state.generator.distribution,
-        numbers: state.generator.numbers,
-        availableGenerators: state.generator.availableGenerators,
-        selectedGenerator: state.generator.selectedGenerator,
-        contextConfig: state.context,
-        elapsedTime: state.generator.elapsedTime
+        generatorConfig: state.generator,
+        contextConfig: state.context
     }
 )
 

@@ -32,16 +32,14 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 include: resolve(__dirname, 'src')
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
             }
         ]
     },
 
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Randoomize.me'
+        }),
 
         new NoEmitOnErrorsPlugin(),
 
