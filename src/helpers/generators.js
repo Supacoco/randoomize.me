@@ -1,4 +1,4 @@
-import * as generators from 'randoom'
+import * as generators from '@supacoc0/randoom'
 
 export const generatorNames = Object.keys(generators)
 

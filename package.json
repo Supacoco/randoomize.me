@@ -40,9 +40,9 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "@supacoc0/randoom": "^0.1.0",
     "preact": "^8.1.0",
     "preact-redux": "^2.0.1",
-    "randoom": "git+https://git@github.com/Supacoco/randoom.git",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0"
